@@ -4,8 +4,8 @@
 
 **Project name:** SME Legal AI Assistant / RAGuru  
 **Competition:** Road to AI 2026 - Build AI Legal Assistant  
-**Main notebook:** `RAGuru(9).ipynb`  
-**Recommended runtime:** Kaggle Notebook with **GPU T4 x2**  
+**Main notebook:** `VietLex.ipynb`  
+**Recommended runtime:** Kaggle Notebook with **GPU T4 x2**
 
 This project implements a reproducible Vietnamese legal Retrieval-Augmented Generation (RAG) pipeline for SME-related legal questions. The notebook processes Vietnamese legal PDFs, extracts article-level legal records, creates clause/point-aware retrieval chunks, builds SQLite/BM25/Chroma indexes, retrieves and reranks legal evidence, selects relevant legal articles, generates Vietnamese answers, and exports the final `results.json` / `submission.zip` required by the competition.
 
@@ -19,13 +19,13 @@ The system is notebook-first. It is designed to be run end-to-end on Kaggle rath
 
 The notebook uses the following data sources:
 
-| Data type | Notebook path / expected location | Purpose |
-| --- | --- | --- |
-| Legal PDF corpus | `Your pdf path` | Source corpus for legal retrieval and answer grounding |
-| Competition questions | `Your question path` | Input questions containing `id` and `question` |
-| Prompt files | `Your prompts path` | Prompt templates for answer generation, validation, and SME counselor style |
-| Working artifacts | `/kaggle/working/r2ai_pdf_legal_rag` | Generated SQLite database, BM25 index, Chroma index, caches, and intermediate outputs |
-| Final outputs | `/kaggle/working/results.json` and `/kaggle/working/submission.zip` | Competition submission files |
+| Data type             | Notebook path / expected location                                   | Purpose                                                                               |
+| --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Legal PDF corpus      | `Your pdf path`                                                     | Source corpus for legal retrieval and answer grounding                                |
+| Competition questions | `Your question path`                                                | Input questions containing `id` and `question`                                        |
+| Prompt files          | `Your prompts path`                                                 | Prompt templates for answer generation, validation, and SME counselor style           |
+| Working artifacts     | `/kaggle/working/r2ai_pdf_legal_rag`                                | Generated SQLite database, BM25 index, Chroma index, caches, and intermediate outputs |
+| Final outputs         | `/kaggle/working/results.json` and `/kaggle/working/submission.zip` | Competition submission files                                                          |
 
 Find Config in the notebook to set up the correct paths and other options like models to use, validator, answer, and counselor mode prompt activation.
 
@@ -115,14 +115,14 @@ When running on Kaggle, attach the data as a Kaggle input dataset and make sure 
 
 The notebook uses a hybrid legal RAG pipeline rather than relying only on a generative model.
 
-| Component | Model / implementation | Purpose |
-| --- | --- | --- |
-| BM25 retriever | `rank_bm25` | Lexical keyword retrieval over normalized chunk text |
-| Embedding model | `AITeamVN/Vietnamese_Embedding` | Dense semantic retrieval with Chroma |
-| Vector store | ChromaDB | Persistent vector index for legal chunks |
-| Reranker | `BAAI/bge-reranker-v2-m3` | Neural reranking of candidate chunks |
-| Local LLM | `Qwen/Qwen2.5-3B-Instruct` | Optional prompted answer generation / answer rewriting |
-| Rule-based semantic layer | Notebook code | Domain routing, legal-event detection, article selection, and role coverage |
+| Component                 | Model / implementation          | Purpose                                                                     |
+| ------------------------- | ------------------------------- | --------------------------------------------------------------------------- |
+| BM25 retriever            | `rank_bm25`                     | Lexical keyword retrieval over normalized chunk text                        |
+| Embedding model           | `AITeamVN/Vietnamese_Embedding` | Dense semantic retrieval with Chroma                                        |
+| Vector store              | ChromaDB                        | Persistent vector index for legal chunks                                    |
+| Reranker                  | `BAAI/bge-reranker-v2-m3`       | Neural reranking of candidate chunks                                        |
+| Local LLM                 | `Qwen/Qwen2.5-3B-Instruct`      | Optional prompted answer generation / answer rewriting                      |
+| Rule-based semantic layer | Notebook code                   | Domain routing, legal-event detection, article selection, and role coverage |
 
 The final notebook uses open-source models loaded by model ID. No custom fine-tuned model is trained inside the notebook.
 
@@ -142,11 +142,11 @@ The notebook is configured to use public Hugging Face model IDs. Before final su
 
 Since this notebook only loads open-source models and does not fine-tune them, there is no custom trained checkpoint produced by the team. The checkpoint list is therefore the list of public model IDs used by the notebook:
 
-| Component | Checkpoint / model ID | Purpose | How it is loaded |
-| --- | --- | --- | --- |
-| Embedding model | `AITeamVN/Vietnamese_Embedding` | Dense retrieval embeddings | Loaded by `sentence-transformers` / Hugging Face |
-| Reranker | `BAAI/bge-reranker-v2-m3` | Cross-encoder reranking | Loaded by `transformers` / Hugging Face |
-| Local LLM | `Qwen/Qwen2.5-3B-Instruct` | Vietnamese answer generation / optional reasoning support | Loaded by `transformers`; 4-bit loading may be enabled |
+| Component       | Checkpoint / model ID           | Purpose                                                   | How it is loaded                                       |
+| --------------- | ------------------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
+| Embedding model | `AITeamVN/Vietnamese_Embedding` | Dense retrieval embeddings                                | Loaded by `sentence-transformers` / Hugging Face       |
+| Reranker        | `BAAI/bge-reranker-v2-m3`       | Cross-encoder reranking                                   | Loaded by `transformers` / Hugging Face                |
+| Local LLM       | `Qwen/Qwen2.5-3B-Instruct`      | Vietnamese answer generation / optional reasoning support | Loaded by `transformers`; 4-bit loading may be enabled |
 
 If a Kaggle runtime has internet enabled, these models can be downloaded automatically from their public model hubs. If internet is disabled, the model folders must be downloaded in advance and attached as a Kaggle input dataset, then the notebook model paths should be updated accordingly.
 
@@ -154,7 +154,7 @@ If a Kaggle runtime has internet enabled, these models can be downloaded automat
 
 For reproduction, provide either:
 
-1. Hugging Face model IDs and internet-enabled Kaggle execution, or  
+1. Hugging Face model IDs and internet-enabled Kaggle execution, or
 2. A shared folder containing the downloaded model folders.
 
 Suggested documentation format:
@@ -252,7 +252,7 @@ If all packages are already installed in the environment, these flags may be set
 
 ### 3.3 Configuration Files
 
-The notebook is mostly self-contained. The important configuration values are defined in Section 2 of `RAGuru(9).ipynb`.
+The notebook is mostly self-contained. The important configuration values are defined in Section 2 of `VietLex.ipynb`.
 
 Important paths:
 
@@ -316,7 +316,7 @@ The notebook includes low-VRAM settings for Kaggle T4-class GPUs, including opti
 Recommended Kaggle setup:
 
 ```text
-1. Upload or attach the notebook `RAGuru(9).ipynb` to Kaggle.
+1. Upload or attach the notebook `VietLex.ipynb` to Kaggle.
 2. Set the Kaggle accelerator to GPU T4 x2.
 3. Enable internet if models will be downloaded from Hugging Face.
 4. Attach the dataset containing legal PDFs, questions, and prompt files.
@@ -416,25 +416,21 @@ The final output must be a JSON list. Each item corresponds to one competition q
     "id": 1,
     "question": "",
     "answer": "",
-    "relevant_docs": [
-      "<document_code>|<document_title>"
-    ],
-    "relevant_articles": [
-      "<document_code>|<document_title>|<article>"
-    ]
+    "relevant_docs": ["<document_code>|<document_title>"],
+    "relevant_articles": ["<document_code>|<document_title>|<article>"]
   }
 ]
 ```
 
 Field requirements:
 
-| Field | Requirement |
-| --- | --- |
-| `id` | Must match the original input question ID |
-| `question` | Must keep the original question unchanged |
-| `answer` | Must be a Vietnamese legal answer grounded in selected evidence |
-| `relevant_docs` | Must contain document references in the required format |
-| `relevant_articles` | Must contain article references in the required format |
+| Field               | Requirement                                                     |
+| ------------------- | --------------------------------------------------------------- |
+| `id`                | Must match the original input question ID                       |
+| `question`          | Must keep the original question unchanged                       |
+| `answer`            | Must be a Vietnamese legal answer grounded in selected evidence |
+| `relevant_docs`     | Must contain document references in the required format         |
+| `relevant_articles` | Must contain article references in the required format          |
 
 Document reference format:
 
@@ -485,15 +481,15 @@ The notebook writes the target ZIP file to:
 
 For private evaluation and reproducibility, prepare the following items:
 
-| Item | Required content | Suggested access method |
-| --- | --- | --- |
-| Final prediction file | `results.json` and `submission.zip` | Direct upload to competition system |
-| Main notebook | `RAGuru(9).ipynb` | Repository, shared archive, or Kaggle notebook link |
-| Data package | Legal PDFs, question file, prompt files, optional processed artifacts | Google Drive, OneDrive, Kaggle Dataset, or equivalent |
-| Model documentation | Public model IDs, model source links, parameter size, and release-date confirmation | Markdown/PDF |
-| Model checkpoints | Public Hugging Face model IDs or offline copied model folders | Hugging Face / shared folder / Kaggle Dataset |
-| Dependency list | Package list or `requirements.txt` | Repository root or shared archive |
-| Reproduction guide | This handover document and README | Repository root |
+| Item                  | Required content                                                                    | Suggested access method                               |
+| --------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Final prediction file | `results.json` and `submission.zip`                                                 | Direct upload to competition system                   |
+| Main notebook         | `VietLex.ipynb`                                                                     | Repository, shared archive, or Kaggle notebook link   |
+| Data package          | Legal PDFs, question file, prompt files, optional processed artifacts               | Google Drive, OneDrive, Kaggle Dataset, or equivalent |
+| Model documentation   | Public model IDs, model source links, parameter size, and release-date confirmation | Markdown/PDF                                          |
+| Model checkpoints     | Public Hugging Face model IDs or offline copied model folders                       | Hugging Face / shared folder / Kaggle Dataset         |
+| Dependency list       | Package list or `requirements.txt`                                                  | Repository root or shared archive                     |
+| Reproduction guide    | This handover document and README                                                   | Repository root                                       |
 
 All shared links should remain accessible during the organizers' inspection and reproduction period.
 
